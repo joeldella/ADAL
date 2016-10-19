@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.webkit.CookieManager;
+
 import android.webkit.CookieSyncManager;
 import android.widget.Toast;
 
@@ -21,30 +22,12 @@ public class ActiveDirectoryLogin extends AppCompatActivity {
     /**
      * UTF-8 encoding
      */
-    public static final String UTF8_ENCODING = "UTF-8";
-
-    public static final String HEADER_AUTHORIZATION = "Authorization";
-
-    public static final String HEADER_AUTHORIZATION_VALUE_PREFIX = "Bearer ";
-
-    // AAD PARAMETERS
-    // https://login.windows.net/tenantInfo
-    static final String AUTHORITY_URL = "https://login.windows.net/appdevautocan";
-
-    // Clientid is given from AAD page when you register your Android app
-    static final String CLIENT_ID = "b8ae227e-d178-4ce4-9c88-0b12f4916cb2";
-
-    // RedirectUri
-    static final String REDIRECT_URL = "http://local";
-
-    // URI for the resource. You need to setup this resource at AAD
-    static final String RESOURCE_ID = "311a71cc-e848-46a1-bdf8-97ff7156d8e6";
-
-    // Endpoint we are targeting for the deployed WebAPI service
-    static final String SERVICE_URL = "https://your.serive.url.here";
+    static final String AUTHORITY_URL = "https://login.windows.net/appdevautocan.onmicrosoft.com";
+    static final String CLIENT_ID = "a9df0e66-7ce8-40e7-963f-44ab54d9fc52";
+    static final String REDIRECT_URL = "https://guestsurveycore.azurewebsites.net";
+    static final String RESOURCE_ID = "02b674e1-1cf5-487b-b479-82fad3ec29d2";
 
     private AuthenticationContext mAuthContext;
-
 
     private AuthenticationResult mResult;
 
@@ -52,20 +35,13 @@ public class ActiveDirectoryLogin extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.active_directory_login);
-
-
         try {
-
-            // init authentication Context
             mAuthContext = new AuthenticationContext(getApplicationContext(),
                     AUTHORITY_URL, false);
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), "Encryption failed",
                     Toast.LENGTH_SHORT).show();
         }
-
-
-
     }
 
     private IWindowComponent wrapFragment(final Fragment fragment) {
@@ -80,7 +56,6 @@ public class ActiveDirectoryLogin extends AppCompatActivity {
     }
 
     public void signIn (final View v) {
-
         if (mResult != null) {
             // logout
             CookieManager cookieManager = CookieManager.getInstance();
@@ -93,11 +68,9 @@ public class ActiveDirectoryLogin extends AppCompatActivity {
                     CLIENT_ID, REDIRECT_URL, "", PromptBehavior.Auto, "",
                     getCallback());
         }
-
     }
 
     private static final String TAG = "DEBUG";
-
     private void showInfo(String msg) {
         Log.d(TAG, msg);
     }
